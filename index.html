@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetCare | Painel Inicial</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8f7;
+            color: #263b3b;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            color: #159b83;
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #344b4a;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #526563;
+            margin-left: 22px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .menu a:hover {
+            color: #159b83;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            background: linear-gradient(120deg, #159b83, #54bda6);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 25px rgba(21,155,131,0.15);
+        }
+
+        .welcome h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .welcome p {
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 650px;
+        }
+
+        .welcome a {
+            display: inline-block;
+            background: white;
+            color: #159b83;
+            padding: 12px 22px;
+            border-radius: 9px;
+            margin-top: 22px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: #344b4a;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            transition: 0.2s;
+            border: 1px solid #edf2f0;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+        }
+
+        .icon {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 9px;
+            font-size: 19px;
+        }
+
+        .card p {
+            color: #7b8b88;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .appointment {
+            border: 2px solid #159b83;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #91a09d;
+            font-size: 13px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .menu {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .menu a {
+                margin: 0;
+            }
+
+            .welcome {
+                padding: 28px;
+            }
+
+            .welcome h1 {
+                font-size: 25px;
+            }
+        }
+
+        
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🐾 Pet<span>Care</span></div>
+
+        <nav class="menu">
+            <a th:href="@{/}">Início</a>
+            <a th:href="@{/tutores}">Tutores</a>
+            <a th:href="@{/animais}">Animais</a>
+            <a th:href="@{/consultas}">Consultas</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <section class="welcome">
+            <h1>Bem-vindo ao PetCare! 🐶🐱</h1>
+
+            <p>
+                Cuidar dos animais ficou mais fácil!
+                Gerencie tutores, animais, veterinários,
+                serviços e consultas em um só lugar.
+            </p>
+
+             <p>
+                 ᘓ︵ᯠ  ᯄ
+            </p>
+
+            <a th:href="@{/consultas/novo}">
+                + Agendar consulta
+            </a>
+        </section>
+
+
+    <h2 class="section-title">Resumo da clínica</h2>
+
+    <section class="cards">
+
+        <div class="card">
+            <div class="icon">👥</div>
+            <h3>Tutores cadastrados</h3>
+            <h1 th:text="${totalTutores}">0</h1>
+        </div>
+
+        <div class="card">
+            <div class="icon">🐶</div>
+            <h3>Animais cadastrados</h3>
+            <h1 th:text="${totalAnimais}">0</h1>
+        </div>
+
+        <div class="card">
+            <div class="icon">🩺</div>
+            <h3>Veterinários</h3>
+            <h1 th:text="${totalVeterinarios}">0</h1>
+        </div>
+
+        <div class="card">
+            <div class="icon">💊</div>
+            <h3>Serviços</h3>
+            <h1 th:text="${totalServicos}">0</h1>
+        </div>
+
+        <div class="card">
+            <div class="icon">📅</div>
+            <h3>Consultas</h3>
+            <h1 th:text="${totalConsultas}">0</h1>
+        </div>
+
+    </section>
+
+    <br><br>
+
+
+        <h2 class="section-title">Gerenciamento da clínica</h2>
+
+        <section class="cards">
+
+            <a class="card" th:href="@{/tutores}">
+                <div class="icon">👥</div>
+                <h3>Tutores</h3>
+                <p>Cadastre e consulte os responsáveis pelos animais.</p>
+            </a>
+
+            <a class="card" th:href="@{/animais}">
+                <div class="icon">🐕</div>
+                <h3>Animais</h3>
+                <p>Gerencie os pets e seus respectivos tutores.</p>
+            </a>
+
+            <a class="card" th:href="@{/veterinarios}">
+                <div class="icon">🩺</div>
+                <h3>Veterinários</h3>
+                <p>Consulte e gerencie os profissionais da clínica.</p>
+            </a>
+
+            <a class="card" th:href="@{/servicos}">
+                <div class="icon">💊</div>
+                <h3>Serviços</h3>
+                <p>Gerencie procedimentos, descrições e preços.</p>
+            </a>
+
+            <a class="card appointment" th:href="@{/consultas}">
+                <div class="icon">📅</div>
+                <h3>Consultas</h3>
+                <p>Visualize os agendamentos e acompanhe os atendimentos.</p>
+            </a>
+
+        </section>
+
+    </main>
+
+    <footer>
+        PetCare © 2026 — Sistema de Gerenciamento Veterinário
+        <br>
+        Cuidando de quem faz parte da família. ❤️
+    </footer>
+
+</body>
+</html>
