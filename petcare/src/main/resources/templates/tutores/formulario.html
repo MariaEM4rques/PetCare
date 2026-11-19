@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastrar Tutor - PetCare</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8f7;
+            color: #263b3b;
+        }
+
+        /* Caixa principal */
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        }
+
+        /* Título */
+        .container h1 {
+            color: #344b4a;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        /* Descrição */
+        .container p {
+            color: #647574;
+            margin-bottom: 25px;
+        }
+
+        /* Organização dos campos */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        /* Cada campo */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Campo ocupando a linha inteira */
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        /* Textos dos campos */
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #344b4a;
+        }
+
+        /* Campos de preenchimento */
+        .form-group input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #dce6e3;
+            border-radius: 9px;
+            background: #fbfdfc;
+            color: #344b4a;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        /* Efeito ao clicar */
+        .form-group input:focus {
+            border-color: #159b83;
+            box-shadow: 0 0 0 3px rgba(21,155,131,0.12);
+            background: white;
+        }
+
+        /* Área dos botões */
+        .form-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        /* Botão salvar */
+        .btn-salvar {
+            background: #159b83;
+            color: white;
+            padding: 13px 24px;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-salvar:hover {
+            background: #117c6a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(21,155,131,0.2);
+        }
+
+        /* Botão cancelar */
+        .btn-cancelar {
+            display: inline-block;
+            background: #344b4a;
+            color: white;
+            padding: 13px 24px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-cancelar:hover {
+            background: #243735;
+            transform: translateY(-2px);
+        }
+
+        /* Responsividade */
+        @media (max-width: 650px) {
+            .container {
+                margin: 20px;
+                padding: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .form-buttons {
+                flex-direction: column;
+            }
+
+            .btn-salvar,
+            .btn-cancelar {
+                text-align: center;
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>👥 Cadastrar Tutor</h1>
+
+        <p>Preencha as informações para cadastrar um novo responsável pelo animal.</p>
+
+        <form th:action="@{/tutores/salvar}"
+              th:object="${tutor}"
+              method="post">
+
+            <div class="form-grid">
+
+                <!-- Nome completo -->
+                <div class="form-group full">
+                    <label>Nome completo</label>
+
+                    <input type="text"
+                           th:field="*{nome}"
+                           placeholder="Digite o nome completo"
+                           required>
+                </div>
+
+                <!-- CPF -->
+                <div class="form-group">
+                    <label>CPF</label>
+
+                    <input type="text"
+                           th:field="*{cpf}"
+                           placeholder="Digite o CPF"
+                           required>
+                </div>
+
+                <!-- Telefone -->
+                <div class="form-group">
+                    <label>Telefone</label>
+
+                    <input type="text"
+                           th:field="*{telefone}"
+                           placeholder="Ex: (92) 99999-9999"
+                           required>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label>Email</label>
+
+                    <input type="email"
+                           th:field="*{email}"
+                           placeholder="exemplo@email.com">
+                </div>
+
+                <!-- Endereço -->
+                <div class="form-group">
+                    <label>Endereço</label>
+
+                    <input type="text"
+                           th:field="*{endereco}"
+                           placeholder="Digite o endereço">
+                </div>
+
+            </div>
+
+            <!-- Botões -->
+            <div class="form-buttons">
+
+                <button type="submit" class="btn-salvar">
+                    Salvar Tutor
+                </button>
+
+                <a href="/tutores" class="btn-cancelar">
+                    Cancelar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

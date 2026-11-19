@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultas - PetCare</title>
+    <style>
+      * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+       body {
+            background: #f4f8f7;
+            color: #263b3b;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+        }
+
+         .logo {
+            color: #159b83;
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #344b4a;
+        }
+
+        h1 {
+            color: #344b4a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        /* Caixa principal */
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+        }
+
+        /* Título da página */
+        .container h1 {
+            font-size: 30px;
+            color: #344b4a;
+            margin-bottom: 10px;
+        }
+
+        /* Descrição */
+        .container p {
+            color: #647574;
+            margin-bottom: 25px;
+        }
+
+        /* Botões */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+       /* Botão Novo Tutor */
+        .btn-novo {
+            display: inline-block;
+            background: #159b83;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-novo:hover {
+            background: #117c6a;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(21,155,131,0.25);
+        }
+
+        /* Botão Voltar ao início */
+        .btn-voltar {
+            display: inline-block;
+            background: #344b4a;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover {
+            background: #243735;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+}
+
+        /* Tabela */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background: #159b83;
+            color: white;
+            font-weight: bold;
+        }
+
+        th:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+
+        th:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        td {
+            border-bottom: 1px solid #eeeeee;
+            color: #344b4a;
+        }
+
+        /* Efeito nas linhas */
+        tbody tr:hover {
+            background: #f0faf7;
+        }
+
+         .menu a {
+            text-decoration: none;
+            color: #526563;
+            margin-left: 22px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .menu a:hover {
+            color: #159b83;
+        }   
+        
+        .botao {
+            background: #2686a8;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .excluir {
+            background: #c94b4b;
+        }
+          
+           
+    </style>
+
+</head>
+<body>
+    <header>
+        <div class="logo">🐾 Pet<span>Care</span></div>
+
+        <nav class="menu">
+            <a th:href="@{/}">Início</a>
+            <a th:href="@{/tutores}">Tutores</a>
+            <a th:href="@{/animais}">Animais</a>
+            <a th:href="@{/consultas}">Consultas</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <h1>🐾 Consultas Agendadas</h1>
+
+        <br>
+
+        <p>Gerenciamento das consultas da clínica.</p>
+
+        <br>
+
+        <a th:href="@{/consultas/novo}" class="btn-novo">
+            + Agendar Nova Consulta
+        </a>
+
+        <br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Data e horário</th>
+                    <th>Animal</th>
+                    <th>Veterinário</th>
+                    <th>Serviço</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Observações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr th:each="consulta : ${consultas}">
+
+                    <td th:text="${consulta.id}"></td>
+
+                    <td th:text="${consulta.dataHora}"></td>
+
+                    <td th:text="${consulta.animal.nome}"></td>
+
+                    <td th:text="${consulta.veterinario.nome}"></td>
+
+                    <td th:text="${consulta.servico.nome}"></td>
+
+                    <td th:text="${consulta.valor != null ? 'R$ ' + #numbers.formatDecimal(consulta.valor, 1, 2) : 'Não informado'}"></td>
+
+                    <td th:text="${consulta.status}"></td>
+
+                    <td th:text="${consulta.observacoes}"></td>
+
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(consultas)}">
+                    <td colspan="8">Nenhuma consulta cadastrada.</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <br>
+
+        <a href="/" class="btn-voltar">
+            ← Voltar ao início
+        </a>
+
+    </div>
+</body>
+</html>

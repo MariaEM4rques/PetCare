@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendar Consulta - PetCare</title>
+     <style>
+      * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+       body {
+            background: #f4f8f7;
+            color: #263b3b;
+        }
+
+        /* Caixa principal do formulário */
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        }
+
+         /* Título */
+        .container h1 {
+            color: #344b4a;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        /* Organização dos campos */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        /* Cada campo */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+         /* Campo que ocupa a linha inteira */
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+          /* Textos dos campos */
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #344b4a;
+        }
+
+        /* Inputs e seleções */
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #dce6e3;
+            border-radius: 9px;
+            background: #fbfdfc;
+            color: #344b4a;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+         /* Efeito ao clicar nos campos */
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #159b83;
+            box-shadow: 0 0 0 3px rgba(21,155,131,0.12);
+            background: white;
+        }
+
+        /* Campo de observações */
+        .form-group textarea {
+            width: 100%;
+            min-height: 110px;
+            padding: 13px;
+            border: 1px solid #dce6e3;
+            border-radius: 9px;
+            background: #fbfdfc;
+            color: #344b4a;
+            font-size: 14px;
+            outline: none;
+            resize: vertical;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            transition: 0.3s;
+        }
+
+        .form-group textarea:focus {
+            border-color: #159b83;
+            box-shadow: 0 0 0 3px rgba(21,155,131,0.12);
+            background: white;
+        }
+
+        /* Área dos botões */
+        .form-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        /* Botão salvar */
+        .btn-salvar {
+            background: #159b83;
+            color: white;
+            padding: 13px 24px;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-salvar:hover {
+            background: #117c6a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(21,155,131,0.2);
+        }
+
+        /* Botão cancelar */
+        .btn-cancelar {
+            display: inline-block;
+            background: #344b4a;
+            color: white;
+            padding: 13px 24px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-cancelar:hover {
+            background: #243735;
+            transform: translateY(-2px);
+        }
+
+        /* Responsividade para celulares */
+        @media (max-width: 650px) {
+            .container {
+                margin: 20px;
+                padding: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .form-buttons {
+                flex-direction: column;
+            }
+
+            .btn-salvar,
+            .btn-cancelar {
+                text-align: center;
+                width: 100%;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+   
+<body>
+
+    <div class="container">
+
+        <h1>📅 Agendar Consulta</h1>
+
+        <p>Preencha as informações para realizar o agendamento veterinário.</p>
+
+        <form th:action="@{/consultas/salvar}"
+            th:object="${consulta}"
+            method="post">
+
+            <div class="form-grid">
+
+                <!-- Animal -->
+                <div class="form-group">
+                    <label>Animal</label>
+
+                    <select name="animalId" required>
+                        <option value="">Selecione um animal</option>
+
+                        <option th:each="animal : ${animais}"
+                                th:value="${animal.id}"
+                                th:text="${animal.nome}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Veterinário -->
+                <div class="form-group">
+                    <label>Veterinário</label>
+
+                    <select name="veterinarioId" required>
+                        <option value="">Selecione um veterinário</option>
+
+                        <option th:each="veterinario : ${veterinarios}"
+                                th:value="${veterinario.id}"
+                                th:text="${veterinario.nome}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Serviço -->
+                <div class="form-group">
+                    <label>Serviço</label>
+
+                    <select name="servicoId" required>
+                        <option value="">Selecione um serviço</option>
+
+                        <option th:each="servico : ${servicos}"
+                                th:value="${servico.id}"
+                                th:text="${servico.nome + ' - R$ ' + servico.preco}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Data e horário -->
+                <div class="form-group">
+                    <label>Data e horário</label>
+
+                    <input type="datetime-local"
+                        th:field="*{dataHora}"
+                        required>
+                </div>
+
+                <!-- Status -->
+                <div class="form-group">
+                    <label>Status da consulta</label>
+
+                    <select th:field="*{status}" required>
+                        <option value="">Selecione o status</option>
+                        <option value="AGENDADA">Agendada</option>
+                        <option value="REALIZADA">Realizada</option>
+                        <option value="CANCELADA">Cancelada</option>
+                    </select>
+                </div>
+
+                <!-- Observações -->
+                <div class="form-group full">
+                    <label>Observações</label>
+
+                    <textarea th:field="*{observacoes}"
+                            placeholder="Digite informações adicionais sobre a consulta..."></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-buttons">
+
+                <button type="submit" class="btn-salvar">
+                    Salvar Consulta
+                </button>
+
+                <a href="/consultas" class="btn-cancelar">
+                    Cancelar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</body>
+</html>

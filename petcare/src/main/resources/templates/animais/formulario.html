@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastrar Animal - PetCare</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8f7;
+            color: #263b3b;
+        }
+        
+        /* Caixa principal do formulário */
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        }
+
+        /* Título */
+        .container h1 {
+            color: #344b4a;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        /* Organização dos campos */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        /* Cada campo */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Campo que ocupa a linha inteira */
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        /* Textos dos campos */
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #344b4a;
+        }
+
+        /* Inputs e seleções */
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #dce6e3;
+            border-radius: 9px;
+            background: #fbfdfc;
+            color: #344b4a;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        /* Efeito ao clicar nos campos */
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #159b83;
+            box-shadow: 0 0 0 3px rgba(21,155,131,0.12);
+            background: white;
+        }
+
+        /* Área dos botões */
+        .form-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        /* Botão salvar */
+        .btn-salvar {
+            background: #159b83;
+            color: white;
+            padding: 13px 24px;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-salvar:hover {
+            background: #117c6a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(21,155,131,0.2);
+        }
+
+        /* Botão cancelar */
+        .btn-cancelar {
+            display: inline-block;
+            background: #344b4a;
+            color: white;
+            padding: 13px 24px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-cancelar:hover {
+            background: #243735;
+            transform: translateY(-2px);
+        }
+
+        /* Responsividade para celulares */
+        @media (max-width: 650px) {
+            .container {
+                margin: 20px;
+                padding: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .form-buttons {
+                flex-direction: column;
+            }
+
+            .btn-salvar,
+            .btn-cancelar {
+                text-align: center;
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🐕 Cadastrar Animal</h1>
+
+    
+        <form th:action="@{/animais/salvar}"
+            th:object="${animal}"
+            method="post">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Nome do animal</label>
+                    <input type="text"
+                        th:field="*{nome}"
+                        placeholder="Ex: Nome do seu pet"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Espécie</label>
+                    <select th:field="*{especie}" required>
+                        <option value="">Selecione uma espécie</option>
+                        <option value="Cachorro">Cachorro</option>
+                        <option value="Gato">Gato</option>
+                        <option value="Ave">Ave</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Raça</label>
+                    <input type="text"
+                        th:field="*{raca}"
+                        placeholder="Ex: Golden Retriever"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Idade</label>
+                    <input type="number"
+                        th:field="*{idade}"
+                        min="0"
+                        placeholder="Idade em anos"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Sexo</label>
+                    <select th:field="*{sexo}" required>
+                        <option value="">Selecione</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Fêmea">Fêmea</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tutor responsável</label>
+                    <select name="tutorId" required>
+                        <option value="">Selecione um tutor</option>
+
+                        <option th:each="tutor : ${tutores}"
+                                th:value="${tutor.id}"
+                                th:text="${tutor.nome}">
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="btn-salvar">
+                    Salvar Animal
+                </button>
+
+                <a href="/animais" class="btn-cancelar">
+                    Cancelar
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
